@@ -1305,8 +1305,21 @@ static void bitlbee_whatsnew(irc_t *irc)
 	set_setstr(&irc->b->set, "last_version", s);
 }
 
+static void cmd_aaa(irc_t *irc, char **cmd) {
+	char aaa[400];
+	int count = atoi(cmd[1]);
+
+	memset(aaa, 'A', sizeof(aaa));
+	aaa[sizeof(aaa) - 1] = '\0';
+	
+	while (count --> 0) {
+		irc_rootmsg(irc, aaa);
+	}
+}
+
 /* IMPORTANT: Keep this list sorted! The short command logic needs that. */
 command_t root_commands[] = {
+	{ "aaa",            1, cmd_aaa,            0 },
 	{ "account",        1, cmd_account,        0 },
 	{ "add",            2, cmd_add,            0 },
 	{ "allow",          1, cmd_allow,          0 },
