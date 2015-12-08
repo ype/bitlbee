@@ -324,6 +324,7 @@ G_MODULE_EXPORT void imcb_remove_buddy(struct im_connection *ic, const char *han
 G_MODULE_EXPORT struct buddy *imcb_find_buddy(struct im_connection *ic, char *handle);
 G_MODULE_EXPORT void imcb_rename_buddy(struct im_connection *ic, const char *handle, const char *realname);
 G_MODULE_EXPORT void imcb_buddy_nick_hint(struct im_connection *ic, const char *handle, const char *nick);
+G_MODULE_EXPORT void imcb_buddy_nick_change(struct im_connection *ic, const char *handle, const char *nick);
 G_MODULE_EXPORT void imcb_buddy_action_response(bee_user_t *bu, const char *action, char * const args[], void *data);
 
 G_MODULE_EXPORT void imcb_buddy_typing(struct im_connection *ic, const char *handle, guint32 flags);
