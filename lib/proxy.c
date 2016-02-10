@@ -91,6 +91,7 @@ static gboolean proxy_connected(gpointer data, gint source, b_input_condition co
 	struct PHB *phb = data;
 	socklen_t len;
 	int error = ETIMEDOUT;
+	int fd;
 
 	len = sizeof(error);
 
@@ -121,11 +122,19 @@ static gboolean proxy_connected(gpointer data, gint source, b_input_condition co
 	b_event_remove(phb->inpa);
 	phb->inpa = 0;
 
+	fd = phb->fd;
+
 	if (phb->proxy_func) {
 		phb->proxy_func(phb->proxy_data, source, B_EV_IO_READ);
 	} else {
+		struct PHB *phb_check;
+
 		phb->func(phb->data, source, B_EV_IO_READ);
-		phb_free(phb, TRUE);
+
+		/* Check the hash table again before touching phb, in case it was freed */
+		if ((phb_check = g_hash_table_lookup(phb_hash, &fd)) && phb_check == phb) {
+			phb_free(phb, TRUE);
+		}
 	}
 
 	return FALSE;
