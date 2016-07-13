@@ -754,7 +754,9 @@ void purple_chat_list(struct im_connection *ic, const char *server)
 
 	list = purple_roomlist_get_list(pd->account->gc);
 
-	if (list == NULL) {
+	if (list) {
+		purple_roomlist_ref(list);
+	} else {
 		imcb_log(ic, "Room listing unsupported by this purple plugin");
 	}
 }
@@ -1389,7 +1391,6 @@ static void prplcb_roomlist_in_progress(PurpleRoomlist *list, gboolean in_progre
 
 static void prplcb_roomlist_destroy(PurpleRoomlist *list)
 {
-	/* bee_chat_list_finish() frees rld->chats */
 	g_free(list->ui_data);
 	list->ui_data = NULL;
 }
